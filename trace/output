@@ -1,0 +1,239 @@
+walker@rover-2:~/classes/c435/fall_13/proj_1_2$ plc.py -d test7.pl0
+prog -> block  '.' 'FEND' 
+    block -> const_decl var_decl proc_decl stmt
+        const_decl -> [CONST ID '=' NUM {',' ID '=' NUM} ';'] 
+            match CONST -> const
+            match ID -> m
+            match RELOP -> =
+            match NUM -> 32
+            match , -> ,
+            match ID -> want2B23
+            match RELOP -> =
+            match NUM -> 23
+            match , -> ,
+Error: Line 3: 'm' redefined .. ignoring
+            match ID : level = 0, STEntry(lexeme='m', tokval='ID', kind='ICON', loc=32)
+            match RELOP -> =
+            match NUM -> 6
+            match ; -> ;
+        var_decl -> [VAR ID {',' ID} ';'] 
+            match VAR -> var
+            match ID -> x
+            match , -> ,
+            match ID -> y
+            match , -> ,
+            match ID -> rogue
+            match ; -> ;
+        proc_decl -> {PROC ID ';' block ';'} 
+            match PROCEDURE -> procedure
+            match ID -> fred
+            match ; -> ;
+            block -> const_decl var_decl proc_decl stmt
+                const_decl -> [CONST ID '=' NUM {',' ID '=' NUM} ';'] 
+                    match CONST -> const
+                    match ID : level = 1, STEntry(lexeme='m', tokval='ID', kind='ICON', loc=32)
+                    match RELOP -> =
+                    match NUM -> 99
+                    match , -> ,
+                    match ID -> r
+                    match RELOP -> =
+                    match NUM -> 908
+                    match ; -> ;
+                var_decl -> [VAR ID {',' ID} ';'] 
+                    match VAR -> var
+                    match ID : level = 1, STEntry(lexeme='y', tokval='ID', kind='IVAR', loc=4)
+                    match , -> ,
+                    match ID -> s
+                    match , -> ,
+                    match ID -> t
+                    match ; -> ;
+                proc_decl -> {PROC ID ';' block ';'} 
+                    match PROCEDURE -> procedure
+                    match ID -> barney
+                    match ; -> ;
+                    block -> const_decl var_decl proc_decl stmt
+                        const_decl -> [CONST ID '=' NUM {',' ID '=' NUM} ';'] 
+                            match CONST -> const
+Warning: Line 9: 'barney' masking proc name, makes it inaccessible
+                            match ID : level = 1, STEntry(lexeme='barney', tokval='ID', kind='PROC', loc=0)
+                            match RELOP -> =
+                            match NUM -> 12
+                            match ; -> ;
+                        var_decl -> [VAR ID {',' ID} ';'] 
+                            match VAR -> var
+                            match ID : level = 1, STEntry(lexeme='s', tokval='ID', kind='IVAR', loc=4)
+                            match ; -> ;
+                        proc_decl -> {PROC ID ';' block ';'} 
+                            proc_decl -> epsilon
+                        ***********************
+                        Current Symbol Table: 
+                        barney
+                            STEntry(lexeme='barney', tokval='ID', kind='ICON', loc=12)
+                            STEntry(lexeme='s', tokval='ID', kind='IVAR', loc=3)
+                        fred
+                            STEntry(lexeme='m', tokval='ID', kind='ICON', loc=99)
+                            STEntry(lexeme='r', tokval='ID', kind='ICON', loc=908)
+                            STEntry(lexeme='y', tokval='ID', kind='IVAR', loc=3)
+                            STEntry(lexeme='s', tokval='ID', kind='IVAR', loc=4)
+                            STEntry(lexeme='t', tokval='ID', kind='IVAR', loc=5)
+                            STEntry(lexeme='barney', tokval='ID', kind='PROC', loc=0)
+                        _main
+                            STEntry(lexeme='m', tokval='ID', kind='ICON', loc=32)
+                            STEntry(lexeme='want2B23', tokval='ID', kind='ICON', loc=23)
+                            STEntry(lexeme='x', tokval='ID', kind='IVAR', loc=3)
+                            STEntry(lexeme='y', tokval='ID', kind='IVAR', loc=4)
+                            STEntry(lexeme='rogue', tokval='ID', kind='IVAR', loc=5)
+                            STEntry(lexeme='fred', tokval='ID', kind='PROC', loc=0)
+                        ***********************
+                        statement -> BEGIN statement { ';' statement } END
+                            match BEGIN -> begin
+                            statement -> epsilon
+                            match ; -> ;
+                            statement -> left_id ASMT expr
+                                lid -> ID with L-val
+Error: Line 12: Left of assignment, 'm' has no L-Val
+                                    match ID : level = 1, STEntry(lexeme='m', tokval='ID', kind='ICON', loc=99)
+                                match ASGN -> :=
+                                expr -> [ADDOP] term { ADDOP term }
+                                    term -> factor { MULOP factor }
+                                        factor -> ID | NUM | "(" expr ")"
+                                            match ID : level = 1, STEntry(lexeme='y', tokval='ID', kind='IVAR', loc=3)
+                                        match MULOP -> *
+                                        factor -> ID | NUM | "(" expr ")"
+                                            match NUM -> 28
+                            match ; -> ;
+                            statement -> left_id ASMT expr
+                                lid -> ID with L-val
+Error: Line 13: Left of assignment, 'm' has no L-Val
+                                    match ID : level = 1, STEntry(lexeme='m', tokval='ID', kind='ICON', loc=99)
+                                match ASGN -> :=
+                                expr -> [ADDOP] term { ADDOP term }
+                                    term -> factor { MULOP factor }
+                                        factor -> ID | NUM | "(" expr ")"
+                                            match ID : level = 1, STEntry(lexeme='m', tokval='ID', kind='ICON', loc=99)
+                                        match MULOP -> /
+                                        factor -> ID | NUM | "(" expr ")"
+                                            match NUM -> 6
+                            match ; -> ;
+                            statement -> left_id ASMT expr
+                                lid -> ID with L-val
+Error: Line 14: 'absent' undefined.  Error only reported once.
+                                    match ID -> absent
+                                match ASGN -> :=
+                                expr -> [ADDOP] term { ADDOP term }
+                                    term -> factor { MULOP factor }
+                                        factor -> ID | NUM | "(" expr ")"
+Error: Line 14: Right of assignment, 'fred' has no R-Val
+                                            match ID : level = 2, STEntry(lexeme='fred', tokval='ID', kind='PROC', loc=0)
+                                    match ADDOP -> +
+                                    term -> factor { MULOP factor }
+                                        factor -> ID | NUM | "(" expr ")"
+                                            match ID -> nothere
+                            match END -> end
+                    match ; -> ;
+                    match PROCEDURE -> procedure
+Error: Line 16: 's' redefined .. ignoring
+                    match ID : level = 0, STEntry(lexeme='s', tokval='ID', kind='IVAR', loc=4)
+                    match ; -> ;
+                    block -> const_decl var_decl proc_decl stmt
+                        const_decl -> [CONST ID '=' NUM {',' ID '=' NUM} ';'] 
+                                const_decl -> epsilon
+                        var_decl -> [VAR ID {',' ID} ';'] 
+                            match VAR -> var
+                            match ID -> bambam
+                            match ; -> ;
+                        proc_decl -> {PROC ID ';' block ';'} 
+                            proc_decl -> epsilon
+                        ***********************
+                        Current Symbol Table: 
+                        s
+                            STEntry(lexeme='bambam', tokval='ID', kind='IVAR', loc=3)
+                        fred
+                            STEntry(lexeme='m', tokval='ID', kind='ICON', loc=99)
+                            STEntry(lexeme='r', tokval='ID', kind='ICON', loc=908)
+                            STEntry(lexeme='y', tokval='ID', kind='IVAR', loc=3)
+                            STEntry(lexeme='s', tokval='ID', kind='IVAR', loc=4)
+                            STEntry(lexeme='t', tokval='ID', kind='IVAR', loc=5)
+                            STEntry(lexeme='barney', tokval='ID', kind='PROC', loc=0)
+                        _main
+                            STEntry(lexeme='m', tokval='ID', kind='ICON', loc=32)
+                            STEntry(lexeme='want2B23', tokval='ID', kind='ICON', loc=23)
+                            STEntry(lexeme='x', tokval='ID', kind='IVAR', loc=3)
+                            STEntry(lexeme='y', tokval='ID', kind='IVAR', loc=4)
+                            STEntry(lexeme='rogue', tokval='ID', kind='IVAR', loc=5)
+                            STEntry(lexeme='fred', tokval='ID', kind='PROC', loc=0)
+                        ***********************
+                        statement -> BEGIN statement { ';' statement } END
+                            match BEGIN -> begin
+                            statement -> CALL ID
+                                match CALL -> call
+Error: Line 19: 'y' not a procedure
+                                match ID : level = 1, STEntry(lexeme='y', tokval='ID', kind='IVAR', loc=3)
+                            match ; -> ;
+                            statement -> CALL ID
+                                match CALL -> call
+Error: Line 20: Procedure 'g' is undefined
+                                match ID -> g
+                            match ; -> ;
+                            statement -> epsilon
+                            match END -> end
+                    match ; -> ;
+                ***********************
+                Current Symbol Table: 
+                fred
+                    STEntry(lexeme='m', tokval='ID', kind='ICON', loc=99)
+                    STEntry(lexeme='r', tokval='ID', kind='ICON', loc=908)
+                    STEntry(lexeme='y', tokval='ID', kind='IVAR', loc=3)
+                    STEntry(lexeme='s', tokval='ID', kind='IVAR', loc=4)
+                    STEntry(lexeme='t', tokval='ID', kind='IVAR', loc=5)
+                    STEntry(lexeme='barney', tokval='ID', kind='PROC', loc=0)
+                _main
+                    STEntry(lexeme='m', tokval='ID', kind='ICON', loc=32)
+                    STEntry(lexeme='want2B23', tokval='ID', kind='ICON', loc=23)
+                    STEntry(lexeme='x', tokval='ID', kind='IVAR', loc=3)
+                    STEntry(lexeme='y', tokval='ID', kind='IVAR', loc=4)
+                    STEntry(lexeme='rogue', tokval='ID', kind='IVAR', loc=5)
+                    STEntry(lexeme='fred', tokval='ID', kind='PROC', loc=0)
+                ***********************
+                statement -> BEGIN statement { ';' statement } END
+                    match BEGIN -> begin
+                    statement -> WRITE '(' expr ')' 
+                        match WRITE -> write
+                        match ( -> (
+                        expr -> [ADDOP] term { ADDOP term }
+                            term -> factor { MULOP factor }
+                                factor -> ID | NUM | "(" expr ")"
+                                    match ID : level = 1, STEntry(lexeme='x', tokval='ID', kind='IVAR', loc=3)
+                        match ) -> )
+                    match END -> end
+            match ; -> ;
+        ***********************
+        Current Symbol Table: 
+        _main
+            STEntry(lexeme='m', tokval='ID', kind='ICON', loc=32)
+            STEntry(lexeme='want2B23', tokval='ID', kind='ICON', loc=23)
+            STEntry(lexeme='x', tokval='ID', kind='IVAR', loc=3)
+            STEntry(lexeme='y', tokval='ID', kind='IVAR', loc=4)
+            STEntry(lexeme='rogue', tokval='ID', kind='IVAR', loc=5)
+            STEntry(lexeme='fred', tokval='ID', kind='PROC', loc=0)
+        ***********************
+        statement -> BEGIN statement { ';' statement } END
+            match BEGIN -> begin
+            statement -> epsilon
+            match END -> end
+    match . -> .
+    match FEND -> None
+Parse complete with 1 Warnings and 8 Errors
+walker@rover-2:~/classes/c435/fall_13/proj_1_2$ 
+walker@rover-2:~/classes/c435/fall_13/proj_1_2$ plc.py test7.pl0
+Error: Line 3: 'm' redefined .. ignoring
+Warning: Line 9: 'barney' masking proc name, makes it inaccessible
+Error: Line 12: Left of assignment, 'm' has no L-Val
+Error: Line 13: Left of assignment, 'm' has no L-Val
+Error: Line 14: 'absent' undefined.  Error only reported once.
+Error: Line 14: Right of assignment, 'fred' has no R-Val
+Error: Line 16: 's' redefined .. ignoring
+Error: Line 19: 'y' not a procedure
+Error: Line 20: Procedure 'g' is undefined
+Parse complete with 1 Warnings and 8 Errors
+walker@rover-2:~/classes/c435/fall_13/proj_1_2$ 

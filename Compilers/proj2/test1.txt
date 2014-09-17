@@ -1,0 +1,17 @@
+{a comment}
+const a = 44, b = 55, c < 66 {another comment};
+var g, h, a; {need to test 'g' and 'a' in another block}
+procedure alpha;
+    const a = 66; {cannot be redeclared}
+    var g, a;
+    procedure beta;
+        const a = 77; {cannot be redeclared}
+        begin
+        end;
+    begin
+        call alpha;
+        call bob {should error}
+        
+    end;
+begin
+end.

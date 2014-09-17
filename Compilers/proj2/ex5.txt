@@ -1,0 +1,11 @@
+{const, var, begin, read, ID, while, write}
+
+const z = 56;
+var x, y;
+begin	
+  	read(y);
+	x := -y + z - 22;
+	while y < z 
+	Do y := y + 1;
+	writeln(x);;;;
+end.

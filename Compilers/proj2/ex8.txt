@@ -1,0 +1,7 @@
+{makes sure that code generation up to statement works}
+
+const a=1,b=1;
+var c,d;
+proc e;
+ c:=888;
+.

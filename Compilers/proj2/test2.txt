@@ -1,0 +1,12 @@
+const x = 4;
+var a, b, c;
+begin
+    x := 1; {should be an error}
+    a := 1;
+    z := 1;
+    a = x + 1 {should get warning about '=' symbol }
+    read (a);
+    read (x);
+    a := z;
+end
+.

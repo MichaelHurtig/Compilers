@@ -1,0 +1,14 @@
+const a = 5, b = 6 c = 7, g = 8, c =4; {fix problem with positioning... in a single }
+var f h, w, k l, m n;
+procedure fred;
+    const a = 4;
+    var f;
+begin end;
+
+procedure fred; {this is producing two errors rather than one}
+begin end;
+
+procedure alpha;
+begin end;
+
+.

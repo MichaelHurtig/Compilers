@@ -1,0 +1,11 @@
+{CONST, VAR, beg, if, condition, expr, term, factor}
+
+const a = 57;
+var b, c;
+begin	
+	if odd a - b then 
+		c := a + (b+32)*5/9
+	else
+		c := 22 * b;
+  	
+end.

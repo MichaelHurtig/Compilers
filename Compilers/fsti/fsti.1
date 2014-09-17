@@ -1,0 +1,370 @@
+.TH FSTI "1" "March 2005" "fsti 0.2.1" "User Commands"
+.SH NAME
+fsti \- SHAZAM stack machine interpreter with floating point instructions
+.SH SYNOPSIS
+.B fsti
+\fIsource \fR
+.SH DESCRIPTION
+.\" Add any additional description here
+.PP 
+Execute assembly code programs for the SHAZAM stack machine.
+.br
+\fIsource\fR
+is a SHAZAM stack machine assembly code file with name ending in 
+\fI.st\fR.
+.SH INSTRUCTION SET
+.PP
+The instructions for 
+\fBfsti\fR 
+are an extension of those for the
+\fBsti\fR
+interpreter.
+\fBfsti\fR
+is backward compatible and will execute 
+\fBsti\fB programs.
+.TP
+.B LIT
+load literal integer A onto stack
+.in 14
+T = T + 1
+.br
+S[T] = A
+.in
+.br
+.br
+.TP
+\fBFLT\fR    load literal float A onto stack
+.in 14
+T = T + 1
+.br
+S[T] = A
+.br
+A is a float (contains at most 1 decimal point)
+.in
+.br
+.br
+.TP
+.B OPR
+perform operation A
+.in 14
+A = 0    return
+.in
+.in 23
+T = B - 1
+.br
+P = S[T + 3]    the return address
+.br
+B = S[T + 2]    the dynamic link
+.br
+.br
+.in
+A = 1    integer negate
+.br
+.in 23
+S[T] = -S[t]
+.br
+.br
+.in
+A = 33   float negate
+.br
+.in 23
+S[T] = -S[t]
+.br
+ 
+.br
+.in
+Operations 2 through 5 are the integer arithmetic operators.
+.br
+.in 23
+T = T - 1
+.br
+S[T] = S[T] 'operator' S[T + 1]
+.br
+.in
+A = 2    integer addition
+.br
+A = 3    integer subtraction
+.br
+A = 4    integer multiplication
+.br
+A = 5    integer division
+.br
+ 
+.br
+Operations 34 through 37 are the float arithmetic operators.
+.br
+.in 23
+T = T - 1
+.br
+S[T] = S[T] 'operator' S[T + 1]
+.br
+.in
+A = 34   float addition
+.br
+A = 35   float subtraction
+.br
+A = 36   float multiplication
+.br
+A = 37   float division
+.br
+ 
+.br
+A = 6    odd (integer only)
+.br
+.in 23
+if S[T] is odd then
+.br
+.in +4
+S[T] = TRUE
+.br
+.in
+else
+.in +4
+S[T] = FALSE
+.br
+.br
+.in -13
+A = 7    replicate top of stack
+.br
+.in 23
+T = T + 1
+.br
+S[T] = S[T - 1]
+.br
+ 
+.br
+.in -9
+Operations 8 through 13 are integer relational operators
+.in 23
+T = T - 1
+.br
+if S[T] 'operator' S[T + 1] then
+.in +4
+S[T] = TRUE
+.in -4
+else
+.in +4
+S[T] = FALSE
+.in -13
+A = 8    equal
+.br
+A = 9    not equal
+.br
+A = 10   less than
+.br
+A = 11   greater than or equal
+.br
+A = 12   greater than
+.br
+A = 13   less than or equal
+.br
+ 
+.br
+Operations 40 through 45 are float relational operators
+.in 23
+T = T - 1
+.br
+if S[T] 'operator' S[T + 1] then
+.in +4
+S[T] = TRUE
+.in -4
+else
+.in +4
+S[T] = FALSE
+.in -13
+A = 40   equal
+.br
+A = 41   not equal
+.br
+A = 42   less than
+.br
+A = 43   greater than or equal
+.br
+A = 44   greater than
+.br
+A = 45   less than or equal
+.br
+ 
+.br
+The following operations are I/O for integer, character and float, resp.
+.br
+A = 14   read integer
+.in +9
+T = T + 1
+.brS[T] = next integer from standard input
+.br
+.br
+.in -9
+A = 15   write integer
+.br
+.in +9
+output S[T] as an integer to standard output
+T = T - 1
+.in -9
+A = 16   read character
+.in +9
+T = T + 1
+.br
+S[T] = character code value of the next
+.br
+       character from standard input
+.br
+.br
+.in -9
+A = 17   write character
+.in +9
+output S[T] as a character to standard output
+.br
+T = T - 1
+.br
+.br
+.in -9
+A = 46   read float
+.in +9
+T = T + 1
+.brS[T] = next float from standard inputbug-coreutils@gnu.org
+.br
+.br
+.in -9
+A = 47   write float
+.br
+.in +9
+output S[T] as an float to standard output
+.br
+T = T - 1
+.in -9
+.br
+
+.br
+The following operations are for converting between integer and real representation
+.br
+A = 20   convert the integer value on top of the stack to floating pt. representation
+.br
+.in +9
+S[T] = float(S[T])
+.in -9
+.br
+A = 52   convert the float value on top of the stack to integer representation,
+.br
+.in +9
+resulting in truncation of the value in the cell
+.br
+S[T] = int(S[T])
+
+.br
+.br
+.in -16
+.TP
+\fBLOD\fR    load variable onto stack
+.in 14
+T = T + 1
+.br
+S[T] = S[base(L) + A]
+.br
+.br
+.in -7
+.TP
+\fBSTO\fR    store top element of stack into variable
+.br
+.in +7
+S[base(L) + A] = S[T]
+.br
+T = T - 1
+.br
+.br
+.in -7
+.TP
+\fBLAR\fR    load array element onto stack
+.in +7
+top element indexes array
+.br
+arrays indexed from 1
+.br
+S[T] = S[base(L) + A + S[T] - 1]
+.br
+.br
+.in -7
+.TP
+\fBSAR\fR    store top element of stack into array element
+.in +7
+second element from top indexes array
+.br
+arrays index from 1
+.br
+S[base(L) + A + S[T - 1] -1] = S[T]
+.br
+T = T - 2
+.br
+.br
+.in -7
+.TP
+\fBPAS\fR    pass A values to subroutine
+.in +7
+while A > 0 do begin
+.in +4
+S[T + 3] = S[T]
+.br
+T = T - 1
+.br
+A = A - 1
+.in -4
+end
+.br
+.br
+.in -7
+.TP
+\fBCAL\fR    call subroutine and generate block marker
+.in +7
+S[T + 1] = base(L)      the static link
+.br
+S[T + 2] = B            the dynamic link
+.br
+S[T + 3] = P            the return address
+.br
+B = T + 1
+.br
+P = A
+.br
+.br
+.in -7
+.TP
+\fBINT\fR    increment top register
+.in +7
+T = T + A
+.br
+.br
+.in -7
+.TP
+\fBJMP\fR    jump to instruction A
+.in +7
+P = A
+.br
+.br
+.in -7
+.TP
+\fBJPC\fR    jump conditionally to instruction A
+.in +7
+if S[T] = FALSE then
+.br
+    P = A
+.br
+T = T - 1
+.br
+
+.SH COMMENTS
+.PP
+The character '#' is used to indicat the beginning of a comment.  That 
+portion of the line from the '#' to the end of the line is ignored by
+the interpreter.
+.br
+.SH AUTHOR
+Written by Stephen Kinzler, modified with FPU instructions by Rick Walker
+.SH "REPORTING BUGS"
+Report bugs to <walker@mnstate.edu>.
+.SH COPYRIGHT
+Copyright \(co 2005 Free Software Foundation, Inc.
+.br
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+.SH "SEE ALSO"
+Virtual Stack Machines, by Stephen Kinzler

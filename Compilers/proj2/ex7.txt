@@ -1,0 +1,5 @@
+const m=32, want2B23=23, m=6,r=90;
+var x, y, zebra32,r;
+begin
+end
+.

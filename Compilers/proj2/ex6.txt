@@ -1,0 +1,4 @@
+var x, {there are some more vars coming} y, zebra32;
+begin
+end
+.

@@ -1,0 +1,7 @@
+const z = 56;
+var x, y;
+begin	
+  	read(y);
+	x := y + z;
+	write(x)
+end.

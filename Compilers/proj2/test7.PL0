@@ -1,0 +1,47 @@
+const m=32, want2B23=23, m = 6;{m redefined}
+
+var x, y, rogue;
+
+procedure fred;
+    
+	const m = 99, r = 908;
+    
+	var y, s, t;
+    
+	procedure barney;
+        
+		const barney = 12; {barney hides proc}
+        
+		var s;
+        begin;
+            
+		m := y * 28; {const m}
+            m := m / 6;
+            
+		absent := fred + nothere {undefined: absent and nothere}
+        
+			end;
+    
+		procedure s; {s redefined}
+        
+			var bambam;
+        
+				begin
+            
+				call y;{not a proc}
+            
+				call g;{undefined}
+        
+				end;
+    
+		begin
+        
+			write(x)
+    
+		end;
+
+
+begin 
+
+end
+.

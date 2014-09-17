@@ -1,0 +1,9 @@
+{const, var, begin, read, ID, write}
+
+const z = 56;
+var x, y;
+begin	
+  	read(y);
+	x := -y + z - 22;
+	write(x);;;;
+end.
